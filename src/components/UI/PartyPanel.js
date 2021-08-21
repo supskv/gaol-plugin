@@ -67,7 +67,9 @@ function PartyPanel() {
 
   const newMemberHandle = () => {
     handleMenuClose()
-    setPlayers(prev => [...prev, ""])
+    if (players.length < Config.party.max.fullParty) {
+      setPlayers(prev => [...prev, ""])
+    }
   }
 
   const removeMemberHandle = (i) => {
@@ -156,10 +158,21 @@ function PartyPanel() {
     setIsReset(prev => !prev)
   }
 
+  const getPartyType = () => {
+    const { fullParty, lightParty } = Config.party.max
+    const n = players.length
+    if (n === fullParty) {
+      return "FP"
+    } else if (n >= 2) {
+      return "LP"
+    }
+    return ""
+  }
 
+  const partyType = getPartyType()
   const classes = useStyles();
   const menuList = [
-    { title: 'New', icon: <LibraryAddIcon fontSize="small" />, action: newMemberHandle },
+    { title: 'New', icon: <LibraryAddIcon fontSize="small" />, action: newMemberHandle, disabled: players.length >= Config.party.max.fullParty },
     { title: 'Import', icon: <BackupIcon fontSize="small" />, action: onCLickImport },
     { title: 'Export', icon: <GetAppIcon fontSize="small" />, action: onClickExport, disabled: true, display: true },
   ]
@@ -173,7 +186,10 @@ function PartyPanel() {
               <MoreVertIcon />
             </IconButton>
           }
-          title="Party Member List"
+          title={`Party Member List`}
+          titleTypographyProps={{
+            variant: 'h6',
+          }}
           subheader="The ones who are suffering in UwU."
         />
         <Menu

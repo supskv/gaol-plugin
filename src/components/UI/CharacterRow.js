@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   characterRow: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: '10px 6px',
+    padding: '7px 6px',
   },
   no: {
     marginRight: '6px',

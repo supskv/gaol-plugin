@@ -7,7 +7,7 @@ import { Paper, Typography } from '@material-ui/core'
 import { alpha, makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => {
-  console.log(theme)
+  // console.log(theme)
   return {
     root: {
       display: 'flex',
@@ -21,6 +21,12 @@ const useStyles = makeStyles((theme) => {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
+    },
+    msg: {
+      fontSize: '9px',
+    },
+    order: {
+      color: theme.palette.success.main,
     },
     paper: {
       padding: theme.spacing(2),
@@ -39,7 +45,7 @@ function Home() {
     let joiner = (querystring.indexOf("?") !== -1) ? "&" : "?"
     querystring = `${querystring}${joiner}`
     let href = window.location.href
-    window.open(`${href}settings`, "", "width=680,height=870,location=no,menubar=yes");
+    window.open(`${href}settings`, "", "width=630,height=870,location=no,menubar=yes");
   }
 
 
@@ -47,8 +53,9 @@ function Home() {
     <Paper className={classes.root} variant="outlined" elevation={3}>
       <div className={classes.msgRoot}>
         <Typography variant="p">
-          Your gaol: {overlay.order || "N"}
+          Gaol: <Typography variant="subtitle1" className={classes.order} display="inline">{overlay.order || "N/A"}</Typography>
         </Typography>
+        <Typography variant="body2" className={classes.msg} color="error">{overlay.errMsg || ''}</Typography>
       </div>
       <div>
         <IconButton aria-label="setting" size="small" onClick={() => openWindowSetting()}>

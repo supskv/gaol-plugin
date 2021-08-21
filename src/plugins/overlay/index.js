@@ -1,7 +1,9 @@
-import DefaultGaolConfig from '../../config/gaol'
+import RegexConfig from '../../config/regex'
 
-const regex = DefaultGaolConfig.gaolRegex
-const regexTest = DefaultGaolConfig.testRegex
+const regex = RegexConfig.gaolRegex
+const regexTest = RegexConfig.testRegex
+const nameRegex = RegexConfig.nameRegex
+const testNameRegex = RegexConfig.testNameRegex
 
 /**
  * Must import Overlay Plugin CDN
@@ -33,7 +35,7 @@ export const isGaolLog = (str) => regex.test(str) || regexTest.test(str)
 
 export const getPlayerFromRaw = (players, rawLine) => {
     const i = players.findIndex(name => rawLine.includes(name))
-    return [players[i], i, i > -1] // player name, index, is found
+    return [i, i > -1] // player name, index, is found
 }
 
 export const getGaolOrderByMe = (me, gaoled) => {
@@ -44,3 +46,16 @@ export const getGaolOrderByMe = (me, gaoled) => {
 }
 
 const sortByASC = (a, b) => a - b
+
+export const getNameFromRaw = (rawLine) => {
+    let match = rawLine.match(nameRegex)
+    let testMatch = rawLine.match(testNameRegex)
+    if (match) {
+        const name = match[0].split('|').pop()
+        return name
+    } else if (testMatch) {
+        const name = testMatch[0].split('-').pop()
+        return name
+    }
+    return null
+}

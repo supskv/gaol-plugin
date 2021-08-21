@@ -1,5 +1,6 @@
 import localForage from "../plugins/localForage"
 import gaol from "./gaol"
+import party from "./party"
 
 export const boostrap = async () => {
     const userGaol = await localForage.getItem('gaol')
@@ -22,3 +23,5 @@ export const updatePlayersNMe = async (players, meIndex) => {
 // export const getConfig = (name, successCallback) => {
 //     localForage.getItem(name, successCallback)
 // }
+
+export { party }
