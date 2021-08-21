@@ -166,7 +166,7 @@ function PartyPanel() {
 
   return (
     <div>
-      <Card>
+      <Card style={{ paddingBottom: 0 }}>
         <CardHeader
           action={
             <IconButton onClick={handleMenuClick} aria-controls="simple-menu" aria-haspopup="true" aria-label="more">

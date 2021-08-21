@@ -3,31 +3,59 @@ import { OverlayContext } from '../components/overlay/OverlayContext';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import './Home.css';
+import { Paper, Typography } from '@material-ui/core'
+import { alpha, makeStyles } from '@material-ui/core/styles'
 
-// async function sleep (time) {
-//   return new Promise((resolve) => setTimeout(resolve, time));
-// }
+const useStyles = makeStyles((theme) => {
+  console.log(theme)
+  return {
+    root: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      padding: '5px 8px',
+      background: alpha('#000000', 0.5),
+      // background: alpha(theme.palette.background.default, 0.8),
+      // borderRadius: '10%',
+    },
+    msgRoot: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
+  }
+});
 
 function Home() {
+  const classes = useStyles();
   const overlay = useContext(OverlayContext)
 
   const openWindowSetting = () => {
-		let querystring = String(window.location.search)
-		let joiner      = (querystring.indexOf("?") !== -1) ? "&" : "?"
-		querystring = `${querystring}${joiner}`
+    let querystring = String(window.location.search)
+    let joiner = (querystring.indexOf("?") !== -1) ? "&" : "?"
+    querystring = `${querystring}${joiner}`
     let href = window.location.href
-		window.open(`${href}settings`, "", "width=680,height=860,location=no,menubar=yes");
+    window.open(`${href}settings`, "", "width=680,height=870,location=no,menubar=yes");
   }
 
+
   return (
-    <div className="App">
-      <header className="App-header">
-        Your gaol: {overlay.order || "N"}
-        <IconButton aria-label="setting" onClick={() => openWindowSetting()}>
-            <SettingsIcon />
+    <Paper className={classes.root} variant="outlined" elevation={3}>
+      <div className={classes.msgRoot}>
+        <Typography variant="p">
+          Your gaol: {overlay.order || "N"}
+        </Typography>
+      </div>
+      <div>
+        <IconButton aria-label="setting" size="small" onClick={() => openWindowSetting()}>
+          <SettingsIcon />
         </IconButton>
-      </header>
-    </div>
+      </div>
+    </Paper>
   );
 }
 

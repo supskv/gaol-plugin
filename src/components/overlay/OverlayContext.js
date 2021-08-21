@@ -36,7 +36,6 @@ const Overlay = ({ children }) => {
         }
         
         // console.log('fetchUserConfig')
-        console.log(window.navigator);
         setMei(userGaolConfig.meIndex)
         setPlayers(userGaolConfig.players)
         setCountMatch(userGaolConfig.countMatch)

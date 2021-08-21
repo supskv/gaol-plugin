@@ -50,6 +50,25 @@ function a11yProps(index) {
 
 function Setting() {
   const theme = useTheme();
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      background: theme.palette.background.default,
+      height: 'inherit',
+    },
+    // background: {
+    //   position: 'absolute',
+    //   top: 0,
+    //   left: 0,
+    //   width: '100%',
+    //   height: '100%',
+    //   zIndex: 0,
+    //   background: theme.palette.background.default,
+    //   backgroundSize: 'cover',
+    //   backgroundPosition: 'center',
+    //   opacity: 1,
+    // }
+  }))
+  const classes = useStyles()
   const [value, setValue] = React.useState(0);
   const [radioValue, setRadioValue] = React.useState(0);
 
@@ -62,8 +81,9 @@ function Setting() {
   };
 
   return (
-    <div>
-      <AppBar position="static" color="default">
+    <div className={classes.root}>
+      {/* <div className={classes.background}> </div> */}
+      <AppBar position="sticky" color="default">
         <Tabs
           value={value}
           onChange={handleChange}
