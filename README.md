@@ -45,9 +45,8 @@ This will create a new overlay and click to it in the list of overlays.
 
 ![create new overlay screenshot](screenshots/create_goal_miniparse.png)
 
-In the overlay setting,
-Enter the URL and then click on `Reload Overlay`.
+In the overlay setting, Enter the URL.
 
 ![start gaol overlay screenshot](screenshots/start_goal_plugin.png)
 
-Coming soon
+Finally, click on `Reload Overlay` or restart ACT.
