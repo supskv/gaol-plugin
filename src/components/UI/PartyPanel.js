@@ -151,6 +151,7 @@ function PartyPanel() {
   const saveConfig = async () => {
     await Config.updatePlayersNMe(players, selectMe)
     await overlay.fetchUserConfig()
+    overlay.setErrMsg('')
     alert("Saved successful.")
   }
 
@@ -159,14 +160,12 @@ function PartyPanel() {
   }
 
   const getPartyType = () => {
-    const { fullParty, lightParty } = Config.party.max
+    const { fullParty } = Config.party.max
     const n = players.length
     if (n === fullParty) {
-      return "FP"
-    } else if (n >= 2) {
-      return "LP"
-    }
-    return ""
+      return "Full Party"
+    } 
+    return "Light Party"
   }
 
   const partyType = getPartyType()
@@ -186,7 +185,7 @@ function PartyPanel() {
               <MoreVertIcon />
             </IconButton>
           }
-          title={`Party Member List`}
+          title={`${partyType}`}
           titleTypographyProps={{
             variant: 'h6',
           }}

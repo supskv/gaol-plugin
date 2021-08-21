@@ -5,6 +5,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import './Home.css';
 import { Paper, Typography } from '@material-ui/core'
 import { alpha, makeStyles } from '@material-ui/core/styles'
+import Countdown from 'react-countdown'
 
 const useStyles = makeStyles((theme) => {
   // console.log(theme)
@@ -27,6 +28,9 @@ const useStyles = makeStyles((theme) => {
     },
     order: {
       color: theme.palette.success.main,
+    },
+    timer: {
+      fontSize: '10px',
     },
     paper: {
       padding: theme.spacing(2),
@@ -53,7 +57,22 @@ function Home() {
     <Paper className={classes.root} variant="outlined" elevation={3}>
       <div className={classes.msgRoot}>
         <Typography variant="p">
-          Gaol: <Typography variant="subtitle1" className={classes.order} display="inline">{overlay.order || "N/A"}</Typography>
+          Gaol:
+          <span> </span>
+          <Typography variant="subtitle1" className={classes.order} display="inline">{overlay.order || "N/A"}</Typography>
+          <span> </span>
+          {!!overlay.order && (
+            <Countdown
+              date={Date.now() + 10000}
+              intervalDelay={0}
+              precision={2}
+              renderer={props => (
+                <Typography variant="subtitle1" className={classes.timer} display="inline">
+                  {`${props.seconds}.${props.milliseconds}`}
+                </Typography>
+              )}
+            />
+          )}
         </Typography>
         <Typography variant="body2" className={classes.msg} color="error">{overlay.errMsg || ''}</Typography>
       </div>

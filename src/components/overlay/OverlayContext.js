@@ -36,6 +36,10 @@ const Overlay = ({ children }) => {
             userGaolConfig = await Config.getConfig('gaol')
         }
         
+        if (userGaolConfig.players.length === 0) {
+            setErrMsg('Please add trustworthy friends.')
+        }
+
         // console.log('fetchUserConfig')
         setMei(userGaolConfig.meIndex)
         setPlayers(userGaolConfig.players)
@@ -102,7 +106,7 @@ const Overlay = ({ children }) => {
 
     return (
         <>
-            <OverlayContext.Provider value={{ players, mei, order, fetchUserConfig, errMsg }}>{children}</OverlayContext.Provider>
+            <OverlayContext.Provider value={{ players, mei, order, fetchUserConfig, errMsg, setErrMsg }}>{children}</OverlayContext.Provider>
         </>
     )
 }
