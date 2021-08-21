@@ -36,9 +36,10 @@ const Overlay = ({ children }) => {
             userGaolConfig = await Config.getConfig('gaol')
         }
         
-        if (userGaolConfig.players.length === 0) {
-            setErrMsg('Please add trustworthy friends.')
-        }
+        // wait change context to Redux
+        // if (userGaolConfig.players.length === 0) {
+        //     setErrMsg('Please add trustworthy friends.')
+        // }
 
         // console.log('fetchUserConfig')
         setMei(userGaolConfig.meIndex)
