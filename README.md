@@ -10,9 +10,29 @@ This project was bootstrapped with suffering in UwU.
 
 Install the 64-bit version of [Advanced Combat Tracker](http://advancedcombattracker.com/), if you have not already.
 
-### Install FFXIV ACT Plugin
+### Install ngld OverlayPlugin
 
-If you have just installed ACT and OverlayPlugin,
+If you select the `Plugins` tab and go to the `Plugin Listing`,
+your list of plugins should look something like this:
+
+![get plugin listing screenshot](screenshots/overlayplugin_get_plugin.png)
+
+Click on `Get Plugins` to open up the ACT plugin installer.
+
+Select `Overlay Plugin` and then click `Download and Enable`.
+
+![overlay plugin selection screenshot](screenshots/overlayplugin_enable.png)
+
+This will download the ngld OverlayPlugin into
+`%APPDATA%Advanced Combat Tracker\Plugins\OverlayPlugin`
+and enable `OverlayPlugin.dll` in the list of plugins.
+
+As a note, you must use the [ngld](https://github.com/ngld) version of
+OverlayPlugin and not the original RainbowMage version or the hibiyasleep fork.
+
+### Install FFXIV Gaol Overlay
+
+At this point, if you have just installed ACT and OverlayPlugin,
 then you will be presented with a custom overlay.
 To get to the custom overlay otherwise,
 click on `Plugins` tab and go to `OverlayPlugin.dll` and then click on `New`.
