@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5990bede.css",
+    "main.js": "/static/js/main.8fe1700b.js",
+    "main.js.map": "/static/js/main.8fe1700b.js.map",
+    "index.html": "/index.html",
+    "static/css/main.5990bede.css.map": "/static/css/main.5990bede.css.map",
+    "static/js/main.8fe1700b.js.LICENSE.txt": "/static/js/main.8fe1700b.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/css/main.5990bede.css",
+    "static/js/main.8fe1700b.js"
+  ]
+}
