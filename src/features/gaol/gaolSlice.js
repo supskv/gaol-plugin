@@ -112,7 +112,7 @@ export const orderGaol = () => (dispatch, getState) => {
   const gaoledPlayers = selectGaoledPlayers(getState())
   if (gaoledPlayers.length === 3) {
     const myNumber = selectMyNumber(getState())
-    let [number, isOrderFound] = gaolService.getGaolOrderByMe(myNumber, gaoledPlayers)
+    let [number] = gaolService.getGaolOrderByMe(myNumber, gaoledPlayers)
     console.log(gaoledPlayers, number)
     setTimeout(() => {
       dispatch(resetGaoledPlayer())

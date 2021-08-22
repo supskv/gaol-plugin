@@ -1,12 +1,3 @@
-// import React, { useState } from 'react'
-import { connect as goalConnect } from "./gaolAdapter"
-import { useSelector, useDispatch } from 'react-redux'
-import {
-  order,
-  form,
-  selectNumber,
-  selectPlayers,
-} from './gaolSlice'
 import RegexConfig from '../../config/regex'
 
 const regex = RegexConfig.gaolRegex

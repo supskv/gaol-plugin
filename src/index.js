@@ -1,15 +1,13 @@
-import React from 'react';
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { createTheme, ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from "@material-ui/core/CssBaseline"
-import './index.css';
-import App from './App';
-import * as Config from './config'
-import { store } from './app/store'
 import { Provider } from 'react-redux'
-import * as GaolService from './features/gaol/gaolService'
 
-// Config.boostrap()
+import App from './App'
+import { store } from './app/store'
+import './index.css'
+
 
 const theme = createTheme({
   palette: {

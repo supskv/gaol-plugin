@@ -2,7 +2,7 @@
 
 export const connect = (listeners) => {
   try {
-    listeners.map(listener => {
+    listeners.forEach(listener => {
       window.addOverlayListener(listener.name, (e) => listener.event(e))
     })
     window.startOverlayEvents()
@@ -15,7 +15,7 @@ export const connect = (listeners) => {
 
 export const disconnect = (listeners) => {
   try {
-    listeners.map(listener => {
+    listeners.forEach(listener => {
       window.removeOverlayListener(listener.name, (e) => listener.event(e))
     })
     console.log("Stopped Overlay plugin")

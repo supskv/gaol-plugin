@@ -1,10 +1,12 @@
-import Gaol from './features/gaol/Gaol'
-import Setting from './pages/Setting'
 import {
   HashRouter as Router,
   Switch,
   Route,
-} from "react-router-dom";
+} from "react-router-dom"
+
+import Gaol from './features/gaol/Gaol'
+import Setting from './pages/Setting'
+
 
 function App() {
 

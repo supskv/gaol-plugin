@@ -1,25 +1,21 @@
-import { useContext, useState, useEffect, useCallback } from 'react'
-// import { OverlayContext } from '../components/overlay/OverlayContext'
+import { useEffect, useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import IconButton from '@material-ui/core/IconButton'
 import SettingsIcon from '@material-ui/icons/Settings'
-import './Home.css'
 import { Paper, Typography } from '@material-ui/core'
 import { alpha, makeStyles } from '@material-ui/core/styles'
 import Countdown from 'react-countdown'
-import * as gaolService from './gaolService'
+
 import { connect as gaolConnect, disconnect as gaolDisconnect } from "./gaolAdapter"
-import { useSelector, useDispatch } from 'react-redux'
+import * as gaolService from './gaolService'
 import {
-  order,
-  form,
-  appendGaoledPlayer,
   selectNumber,
-  selectPlayers,
-  selectGaoledPlayers,
   fetchUserConfig,
   updateGaol,
   selectError,
 } from './gaolSlice'
+import './Gaol.css'
+
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -56,29 +52,19 @@ const useStyles = makeStyles((theme) => {
 function Gaol() {
   const number = useSelector(selectNumber)
   const errorMsg = useSelector(selectError)
-  const gaoledPlayer = useSelector(selectGaoledPlayers)
   const classes = useStyles();
-  // const overlay = useContext(OverlayContext)
-  const overlay = useState({})
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(fetchUserConfig())
     const listeners = [
-      { name: 'LogLine', event: orderGaolCallback },
+      { name: 'LogLine', event: gaolEvent },
     ]
     gaolConnect(listeners)
     return () => gaolDisconnect(listeners)
   }, [])
-  
-  useEffect(() => {
-    if (gaoledPlayer.length === 3) {
-      console.log('Gaol work!!!')
-    }
-    // console.log(players);
-  }, [])
 
-  const orderGaolCallback = useCallback((data) => {
+  const gaolEvent = useCallback((data) => {
     const { rawLine } = data
     if (!gaolService.isGaolLog(rawLine)) return
     dispatch(fetchUserConfig()).then(() => {

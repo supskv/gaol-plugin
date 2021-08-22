@@ -1,25 +1,14 @@
 import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+import SwipeableViews from 'react-swipeable-views'
+import AppBar from '@material-ui/core/AppBar'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
 
-import SwipeableViews from 'react-swipeable-views';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Paper from '@material-ui/core/Paper';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import TextField from '@material-ui/core/TextField';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import IconButton from '@material-ui/core/IconButton'
-import DeleteIcon from '@material-ui/icons/Delete'
-import LibraryAddIcon from '@material-ui/icons/LibraryAdd'
-import { Button } from '@material-ui/core'
 import PartyPanel from '../components/UI/PartyPanel'
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -69,15 +58,14 @@ function Setting() {
     // }
   }))
   const classes = useStyles()
-  const [value, setValue] = React.useState(0);
-  const [radioValue, setRadioValue] = React.useState(0);
+  const [value, setValue] = React.useState(0)
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setValue(newValue)
   };
 
   const handleChangeIndex = (index) => {
-    setValue(index);
+    setValue(index)
   };
 
   return (

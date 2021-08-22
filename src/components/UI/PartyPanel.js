@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -13,26 +14,20 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-
-// import { OverlayContext } from '../overlay/OverlayContext'
 import * as convert from 'xml-js'
+
 import * as utilConvert from '../../utils/xml-js'
 import CharacterRow from './CharacterRow'
 import * as Config from '../../config'
-import { useSelector, useDispatch } from 'react-redux'
 import {
-  order,
   form,
   position,
-  appendGaoledPlayer,
-  selectNumber,
   selectPlayers,
-  selectGaoledPlayers,
   fetchUserConfig,
-  updateGaol,
   updateConfig,
   selectMyNumber,
 } from '../../features/gaol/gaolSlice'
+
 
 const useStyles = makeStyles((theme) => ({
   actionDiv: {
@@ -50,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 function PartyPanel() {
-  const overlay = {}
   const [isReset, setIsReset] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null)
   const importFile = React.useRef(null)
@@ -99,7 +93,7 @@ function PartyPanel() {
         // The file's text will be printed here
         const xml = event.target.result
         let result = convert.xml2js(xml)
-        if (!result) throw `The reault of file\'s content is invalid, result: ${result}`;
+        if (!result) throw `The reault of file's content is invalid, result: ${result}`;
         let playerElements = result.elements[0].elements
         let nplayers = playerElements.map(item => item.elements[0].text)
         dispatch(form(nplayers))
