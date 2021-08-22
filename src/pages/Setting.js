@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 
 import PartyPanel from '../components/UI/PartyPanel'
+import About from '../components/UI/About'
 
 
 function TabPanel(props) {
@@ -93,7 +94,7 @@ function Setting() {
           <PartyPanel />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Coming Soon...
+          <About />
         </TabPanel>
         {/* <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
