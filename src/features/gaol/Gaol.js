@@ -81,6 +81,20 @@ function Gaol() {
     window.open(`${href}settings`, "", "width=630,height=870,location=no,menubar=yes");
   }
 
+  const toNumberString = () => {
+    if (number > -1) {
+      return number || "Eating Titan's ass."
+    }
+    return "N/A"
+  }
+
+  const isCountdown = () => {
+    if (number > -1) {
+      return true
+    }
+    return false
+  }
+
 
   return (
     <Paper className={classes.root} variant="outlined" elevation={3}>
@@ -88,9 +102,9 @@ function Gaol() {
         <Typography variant="p">
           Gaol:
           <span> </span>
-          <Typography variant="subtitle1" className={classes.order} display="inline">{number || "N/A"}</Typography>
+          <Typography variant="subtitle1" className={classes.order} display="inline">{toNumberString()}</Typography>
           <span> </span>
-          {!!number && (
+          {isCountdown() && (
             <Countdown
               date={Date.now() + 10000}
               intervalDelay={0}

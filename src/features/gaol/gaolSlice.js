@@ -3,7 +3,7 @@ import { fetchUserConfig as fetchUserConfigAPI, updateUserConfig as updateUserCo
 import * as gaolService from './gaolService'
 
 const initialState = {
-  number: 0,
+  number: -1,
   players: [],
   gaoledPlayers: [],
   myNumber: -1,
@@ -60,7 +60,7 @@ export const gaolSlice = createSlice({
       .addCase(fetchUserConfig.fulfilled, (state, action) => {
         state.status = 'ready';
         state.players = action.payload.players || state.players
-        state.myNumber = action.payload.myNumber || state.myNumber
+        state.myNumber = action.payload.myNumber !== undefined ? action.payload.myNumber : state.myNumber
       });
   },
 });
@@ -116,7 +116,7 @@ export const orderGaol = () => (dispatch, getState) => {
     console.log(gaoledPlayers, number)
     setTimeout(() => {
       dispatch(resetGaoledPlayer())
-      dispatch(order(0))
+      dispatch(order(-1))
     }, 10000)
     dispatch(order(number))
   }
