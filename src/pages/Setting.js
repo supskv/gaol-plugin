@@ -93,7 +93,7 @@ function Setting() {
           <PartyPanel />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          Coming Soon...
         </TabPanel>
         {/* <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
