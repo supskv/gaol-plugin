@@ -14,11 +14,25 @@ import MenuItem from '@material-ui/core/MenuItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 
-import { OverlayContext } from '../overlay/OverlayContext'
+// import { OverlayContext } from '../overlay/OverlayContext'
 import * as convert from 'xml-js'
 import * as utilConvert from '../../utils/xml-js'
 import CharacterRow from './CharacterRow'
 import * as Config from '../../config'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  order,
+  form,
+  position,
+  appendGaoledPlayer,
+  selectNumber,
+  selectPlayers,
+  selectGaoledPlayers,
+  fetchUserConfig,
+  updateGaol,
+  updateConfig,
+  selectMyNumber,
+} from '../../features/gaol/gaolSlice'
 
 const useStyles = makeStyles((theme) => ({
   actionDiv: {
@@ -36,25 +50,18 @@ const useStyles = makeStyles((theme) => ({
 
 
 function PartyPanel() {
-  const overlay = React.useContext(OverlayContext)
+  const overlay = {}
   const [isReset, setIsReset] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const [selectMe, setSelectMe] = React.useState(-1)
-  const [players, setPlayers] = React.useState([''])
   const importFile = React.useRef(null)
   const tempExportLink = React.useRef(null)
 
+  const myNumber = useSelector(selectMyNumber)
+  const players = useSelector(selectPlayers)
+  const dispatch = useDispatch()
+
   React.useEffect(() => {
-    const fetchPlayers = async () => {
-      const ugc = await Config.getConfig('gaol')
-
-      if (ugc) {
-        setPlayers(ugc.players)
-        setSelectMe(ugc.meIndex)
-      }
-    }
-
-    fetchPlayers()
+    dispatch(fetchUserConfig())
   }, [isReset])
 
   const handleMenuClick = (event) => {
@@ -68,13 +75,13 @@ function PartyPanel() {
   const newMemberHandle = () => {
     handleMenuClose()
     if (players.length < Config.party.max.fullParty) {
-      setPlayers(prev => [...prev, ""])
+      dispatch(form([...players, ""]))
     }
   }
 
   const removeMemberHandle = (i) => {
     handleMenuClose()
-    setPlayers(prev => prev.filter((p, pi) => pi !== i))
+    dispatch(form(players.filter((p, pi) => pi !== i)))
   }
 
   const onCLickImport = () => {
@@ -95,7 +102,7 @@ function PartyPanel() {
         if (!result) throw `The reault of file\'s content is invalid, result: ${result}`;
         let playerElements = result.elements[0].elements
         let nplayers = playerElements.map(item => item.elements[0].text)
-        setPlayers(nplayers)
+        dispatch(form(nplayers))
       } catch (e) {
         alert("Cannot import XML file, please try again.")
         console.error(e)
@@ -108,7 +115,7 @@ function PartyPanel() {
   const onClickExport = async () => {
     try {
       handleMenuClose()
-      let userGaolConfig = await Config.getConfig('gaol')
+      let userGaolConfig = {}
       let nplayers = userGaolConfig.players
       let jsonXML = utilConvert.array2PriorityJsonXML(nplayers)
       let xml = convert.js2xml(jsonXML)
@@ -141,17 +148,17 @@ function PartyPanel() {
       if (pi === i) return value
       return v
     })
-    setPlayers(nplayers)
+    dispatch(form(nplayers))
   }
 
   const onChangeSelectMe = (value) => {
-    setSelectMe(value)
+    dispatch(position(value))
   }
 
   const saveConfig = async () => {
-    await Config.updatePlayersNMe(players, selectMe)
-    await overlay.fetchUserConfig()
-    overlay.setErrMsg('')
+    dispatch(updateConfig({
+      players, myNumber,
+    }))
     alert("Saved successful.")
   }
 
@@ -215,7 +222,7 @@ function PartyPanel() {
           {players.map((n, i) => (
             <CharacterRow
               key={i}
-              selectMe={selectMe}
+              selectMe={myNumber}
               index={i}
               name={n}
               onChangeSelectMe={onChangeSelectMe}

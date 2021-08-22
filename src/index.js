@@ -4,10 +4,12 @@ import { createTheme, ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from "@material-ui/core/CssBaseline"
 import './index.css';
 import App from './App';
-import Overlay from './components/overlay/OverlayContext'
 import * as Config from './config'
+import { store } from './app/store'
+import { Provider } from 'react-redux'
+import * as GaolService from './features/gaol/gaolService'
 
-Config.boostrap()
+// Config.boostrap()
 
 const theme = createTheme({
   palette: {
@@ -19,9 +21,9 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Overlay>
+      <Provider store={store}>
         <App />
-      </Overlay>
+      </Provider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,4 +1,4 @@
-import Home from './pages/Home'
+import Gaol from './features/gaol/Gaol'
 import Setting from './pages/Setting'
 import {
   HashRouter as Router,
@@ -13,7 +13,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Gaol />
           </Route>
           <Route path="/settings">
             <Setting />
