@@ -41,10 +41,10 @@ In create new overlay,
 Enter `Name`, Select preset `Custom`, type `Miniparse` and than click on `OK`.
 This will create a new overlay and click to it in the list of overlays.
 
-![create new overlay screenshot](screenshots/create_goal_miniparse.png)
+![create new overlay screenshot](screenshots/create_gaol_miniparse.png)
 
-In the overlay setting, Enter the URL.
+In the overlay setting, Enter the `https://supskv.github.io/gaol-plugin`.
 
-![start gaol overlay screenshot](screenshots/start_goal_plugin.png)
+![start gaol overlay screenshot](screenshots/start_gaol_plugin.png)
 
 Finally, click on `Reload Overlay` or restart ACT.
