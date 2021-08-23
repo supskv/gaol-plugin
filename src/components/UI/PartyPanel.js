@@ -234,7 +234,7 @@ function PartyPanel() {
         <Button variant="contained" color="secondary" className={classes.cancelBtn} onClick={resetConfig}>Reset</Button>
         <Button variant="contained" color="primary" onClick={saveConfig}>Save</Button>
       </div>
-      <input type="file" id="import" ref={importFile} className={classes.dnone} onChange={importHandle} />
+      <input type="file" id="import" ref={importFile} className={classes.dnone} onChange={importHandle} onClick={e => (e.target.value = null)} />
       {/* <a href="#" id="tem_link" ref={tempExportLink}>sssss</a> */}
     </div>
   )

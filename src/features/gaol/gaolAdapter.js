@@ -24,3 +24,23 @@ export const disconnect = (listeners) => {
     console.error(e)
   }
 }
+
+export const tts = async (msg) => {
+  try {
+    const call = createMessage('say', 'text', msg)
+    await window.callOverlayHandler(call)
+    return true
+  } catch (e) {
+    console.error(e)
+    return false
+  }
+}
+
+export const createMessage = (type, key, data) => {
+  const call = {
+    call: type,
+    [key]: data,
+    key, data
+  }
+  return call
+}
