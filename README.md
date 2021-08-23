@@ -1,4 +1,4 @@
-# goal ontip (ffxiv uwu overlay)
+# gaol ontip (ffxiv uwu overlay)
 
 This project was bootstrapped with suffering in UwU.
 
