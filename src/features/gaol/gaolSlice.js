@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchUserConfig as fetchUserConfigAPI, updateUserConfig as updateUserConfigAPI } from './gaolAPI';
 import * as gaolService from './gaolService'
+import * as gaolAdaper from './gaolAdapter'
 
 const initialState = {
   number: -1,
@@ -114,6 +115,11 @@ export const orderGaol = () => (dispatch, getState) => {
     const myNumber = selectMyNumber(getState())
     let [number] = gaolService.getGaolOrderByMe(myNumber, gaoledPlayers)
     console.log(gaoledPlayers, number)
+
+    // tts gaol temp.
+    const msg = number || "Eating Titan's ass."
+    gaolAdaper.tts(msg)
+
     setTimeout(() => {
       dispatch(resetGaoledPlayer())
       dispatch(order(-1))
