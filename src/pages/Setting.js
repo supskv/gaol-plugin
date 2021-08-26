@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box'
 
 import PartyPanel from '../components/UI/PartyPanel'
 import About from '../components/UI/About'
+import ImXExport from '../components/UI/ImXExport'
 
 
 function TabPanel(props) {
@@ -82,7 +83,8 @@ function Setting() {
           aria-label="full width tabs example"
         >
           <Tab label="General" {...a11yProps(0)} />
-          <Tab label="About" {...a11yProps(1)} />
+          <Tab label="Import/Export" {...a11yProps(1)} />
+          <Tab label="About" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -94,11 +96,11 @@ function Setting() {
           <PartyPanel />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
+          <ImXExport />
+        </TabPanel>
+        <TabPanel value={value} index={2} dir={theme.direction}>
           <About />
         </TabPanel>
-        {/* <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
-        </TabPanel> */}
       </SwipeableViews>
     </div>
   )

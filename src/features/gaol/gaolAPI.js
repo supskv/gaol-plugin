@@ -11,11 +11,10 @@ export function fetchUserConfig() {
   });
 }
 
-export function updateUserConfig({ players, myNumber }) {
+export function updateUserConfig(config) {
   return new Promise(async (resolve, reject) => {
     try {
-      await local.setItem('gaol', { players, myNumber })
-      console.log(await local.getItem('gaol'))
+      await local.setItem('gaol', { ...config })
       resolve(true)
     } catch (e) {
       reject(e)

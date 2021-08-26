@@ -1,13 +1,10 @@
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { Link } from '@material-ui/core'
 
 function About() {
-  const theme = useTheme();
-  console.log(theme);
   const useStyles = makeStyles((theme) => ({
     spaceTop: {
       marginTop: '30px',

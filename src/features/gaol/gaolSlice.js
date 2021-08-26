@@ -140,7 +140,7 @@ export const orderGaol = () => (dispatch, getState) => {
   }
 }
 
-export const updateConfig = ({ players, myNumber }) => async (dispatch) => {
+export const updateConfig = ({ players, myNumber = initialState.myNumber }) => async (dispatch) => {
   await updateUserConfigAPI({ players, myNumber })
 }
 
