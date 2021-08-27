@@ -13,6 +13,8 @@ const initialState = {
   error: '',
 };
 
+const isExpire = (timestamp) => new Date().getTime() > timestamp
+
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
@@ -45,7 +47,19 @@ export const gaolSlice = createSlice({
       state.error = action.payload;
     },
     appendGaoledPlayer: (state, action) => {
-      state.gaoledPlayers = [...state.gaoledPlayers, action.payload]
+      const iplayer =  action.payload
+      
+      // filter out gaol that expired.
+      // prevent unexpected gaol such as header's gaol
+      // wrong case: 5 = healer, [6, 4, 2] = next gaol. Thus, gaol will be [5, 6, 4] instead of [6, 4, 2].
+      const gaoled = state.gaoledPlayers.filter(gp => !isExpire(gp.lte))
+      // prevent duplicate
+      const duplicate = gaoled.find(gp => gp.iplayer === iplayer) !== undefined
+      const newItem = { iplayer, lte: new Date().getTime() + 3000 }
+      state.gaoledPlayers = !duplicate ? [...gaoled, newItem] : gaoled
+      if (duplicate) {
+        console.log('Duplicate player on gaol', iplayer)
+      }
     },
     resetGaoledPlayer: (state) => {
       state.gaoledPlayers = []
@@ -103,8 +117,6 @@ export const updateGaol = (rawLine) => (dispatch, getState) => {
     return
   }
 
-  const gaoledPlayers = selectGaoledPlayers(getState())
-  if (gaoledPlayers.find(ix => ix === i) === -1) return
   dispatch(appendGaoledPlayer(i))
   dispatch(orderGaol())
 }
@@ -113,8 +125,8 @@ export const orderGaol = () => (dispatch, getState) => {
   const gaoledPlayers = selectGaoledPlayers(getState())
   if (gaoledPlayers.length === 3) {
     const myNumber = selectMyNumber(getState())
-    let [number] = gaolService.getGaolOrderByMe(myNumber, gaoledPlayers)
-    console.log(gaoledPlayers, number)
+    let [number] = gaolService.getGaolOrderByMe(myNumber, gaoledPlayers.map(gp => gp.iplayer))
+    console.log(new Date(), gaoledPlayers, number)
 
     // tts gaol temp.
     const msg = number || "Eating Titan's ass."
@@ -128,7 +140,7 @@ export const orderGaol = () => (dispatch, getState) => {
   }
 }
 
-export const updateConfig = ({ players, myNumber }) => async (dispatch) => {
+export const updateConfig = ({ players, myNumber = initialState.myNumber }) => async (dispatch) => {
   await updateUserConfigAPI({ players, myNumber })
 }
 

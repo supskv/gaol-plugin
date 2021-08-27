@@ -1,6 +1,6 @@
 {
   "name": "gaol-plugin",
-  "version": "0.1.0",
+  "version": "0.1.11-alpha",
   "private": true,
   "main": "src/index.js",
   "homepage": ".",
@@ -12,6 +12,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "localforage": "^1.10.0",
+    "lz-string": "^1.4.4",
     "react": "^17.0.2",
     "react-app-rewired": "^2.1.8",
     "react-countdown": "^2.3.2",

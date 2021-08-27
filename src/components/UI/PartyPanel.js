@@ -173,8 +173,8 @@ function PartyPanel() {
   const classes = useStyles();
   const menuList = [
     { title: 'New', icon: <LibraryAddIcon fontSize="small" />, action: newMemberHandle, disabled: players.length >= Config.party.max.fullParty },
-    { title: 'Import', icon: <BackupIcon fontSize="small" />, action: onCLickImport },
-    { title: 'Export', icon: <GetAppIcon fontSize="small" />, action: onClickExport, disabled: true, display: true },
+    { title: 'Import XML', icon: <BackupIcon fontSize="small" />, action: onCLickImport },
+    { title: 'Export', icon: <GetAppIcon fontSize="small" />, action: onClickExport, disabled: true, display: false },
   ]
 
   return (

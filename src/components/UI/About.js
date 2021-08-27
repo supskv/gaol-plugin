@@ -1,13 +1,10 @@
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { Link } from '@material-ui/core'
 
 function About() {
-  const theme = useTheme();
-  console.log(theme);
   const useStyles = makeStyles((theme) => ({
     spaceTop: {
       marginTop: '30px',
@@ -28,7 +25,7 @@ function About() {
           </Typography>
           <Link underline="none" href="https://github.com/supskv/gaol-plugin" target="_blank">https://github.com/supskv/gaol-plugin</Link>
           <Typography variant="subtitle2" color="textSecondary" className={classes.spaceTop}>
-            version 0.1.10-alpha
+            version 0.1.11-alpha
           </Typography>
         </CardContent>
       </Card>
