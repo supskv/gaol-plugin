@@ -25,7 +25,7 @@ function CharacterRow({ name = "", selectMe, index, onChangeSelectMe, onTextInpu
       <div>
         <Typography className={classes.no} variant="body2" component="span">{index + 1}</Typography>
         <Radio size="small" checked={selectMe === index} value={index} onChange={() => onChangeSelectMe(index)} />
-        <TextField id="filled-search" label="Character Name" value={name} type="text" variant="outlined" size="small" onChange={(e) => onTextInput(e.target.value, index)} />
+        <TextField label="Character Name" value={name} type="text" variant="outlined" size="small" onChange={(e) => onTextInput(e.target.value, index)} />
       </div>
       {!hiddenAction && (
         <IconButton aria-label="remove" color="secondary" size="small" onClick={() => removeHandle(index)}>

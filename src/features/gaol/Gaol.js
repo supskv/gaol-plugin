@@ -13,7 +13,9 @@ import {
   fetchUserConfig,
   updateGaol,
   selectError,
+  selectMessage,
 } from './gaolSlice'
+import * as GaolHelper from '../../utils/gaol-helper'
 import './Gaol.css'
 
 
@@ -52,6 +54,7 @@ const useStyles = makeStyles((theme) => {
 function Gaol() {
   const number = useSelector(selectNumber)
   const errorMsg = useSelector(selectError)
+  const message = useSelector(selectMessage)
   const classes = useStyles();
   const dispatch = useDispatch()
 
@@ -78,12 +81,12 @@ function Gaol() {
     let joiner = (querystring.indexOf("?") !== -1) ? "&" : "?"
     querystring = `${querystring}${joiner}`
     let href = window.location.href
-    window.open(`${href}settings`, "", "width=630,height=870,location=no,menubar=yes");
+    window.open(`${href}settings`, "", "width=620,height=840,location=no,menubar=yes");
   }
 
   const toNumberString = () => {
     if (number > -1) {
-      return number || "Eating Titan's ass."
+      return GaolHelper.getStringFromMessage(message, number) || 'N/A'
     }
     return "N/A"
   }
@@ -99,10 +102,10 @@ function Gaol() {
   return (
     <Paper className={classes.root} variant="outlined" elevation={3}>
       <div className={classes.msgRoot}>
-        <Typography variant="p">
+        <Typography variant="subtitle1">
           Gaol:
           <span> </span>
-          <Typography variant="subtitle1" className={classes.order} display="inline">{toNumberString()}</Typography>
+          <span className={classes.order}>{toNumberString()}</span>
           <span> </span>
           {isCountdown() && (
             <Countdown

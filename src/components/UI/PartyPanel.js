@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -26,7 +26,10 @@ import {
   fetchUserConfig,
   updateConfig,
   selectMyNumber,
+  selectMessage,
+  setCustomMessage,
 } from '../../features/gaol/gaolSlice'
+import CustomMessage from './CustomMessage'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,16 +50,22 @@ const useStyles = makeStyles((theme) => ({
 function PartyPanel() {
   const [isReset, setIsReset] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const [tempMessage, setTempMessage] = useState({})
   const importFile = React.useRef(null)
   const tempExportLink = React.useRef(null)
 
   const myNumber = useSelector(selectMyNumber)
   const players = useSelector(selectPlayers)
+  const message = useSelector(selectMessage)
   const dispatch = useDispatch()
 
   React.useEffect(() => {
     dispatch(fetchUserConfig())
   }, [isReset])
+  
+  React.useEffect(() => {
+    setTempMessage(message)
+  }, [message])
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -145,13 +154,24 @@ function PartyPanel() {
     dispatch(form(nplayers))
   }
 
+  const onTempMessageInput = (key, value) => {
+    const ntempmessage = {...tempMessage}
+
+    const maxLength = 20
+    const valueLength = Math.max(0, value.length)
+    value = valueLength > maxLength ? value.slice(0, maxLength) : value 
+    ntempmessage[key] = value
+    setTempMessage(ntempmessage)
+  }
+
   const onChangeSelectMe = (value) => {
     dispatch(position(value))
   }
 
   const saveConfig = async () => {
+    dispatch(setCustomMessage(tempMessage))
     dispatch(updateConfig({
-      players, myNumber,
+      players, myNumber, message: tempMessage,
     }))
     alert("Saved successful.")
   }
@@ -175,6 +195,12 @@ function PartyPanel() {
     { title: 'New', icon: <LibraryAddIcon fontSize="small" />, action: newMemberHandle, disabled: players.length >= Config.party.max.fullParty },
     { title: 'Import XML', icon: <BackupIcon fontSize="small" />, action: onCLickImport },
     { title: 'Export', icon: <GetAppIcon fontSize="small" />, action: onClickExport, disabled: true, display: false },
+  ]
+  const customList = [
+    { label: 'No Gaol', value: tempMessage.nogaol, onChange: (e) => onTempMessageInput('nogaol', e.target.value) },
+    { label: 'Gaol 1', value: tempMessage.gaol1, onChange: (e) => onTempMessageInput('gaol1', e.target.value) },
+    { label: 'Gaol 2', value: tempMessage.gaol2, onChange: (e) => onTempMessageInput('gaol2', e.target.value) },
+    { label: 'Gaol 3', value: tempMessage.gaol3, onChange: (e) => onTempMessageInput('gaol3', e.target.value) },
   ]
 
   return (
@@ -225,17 +251,14 @@ function PartyPanel() {
               hiddenAction={players.length <= 1}
             />
           ))}
-          {/* <RadioGroup aria-label="quiz" name="quiz" value={value} onChange={handleRadioChange}>
-          <FormControlLabel value="0" control={<Radio />} label={<CharacterInfo />} />
-        </RadioGroup> */}
         </CardContent>
       </Card>
+      <CustomMessage inputList={customList} />
       <div className={classes.actionDiv}>
         <Button variant="contained" color="secondary" className={classes.cancelBtn} onClick={resetConfig}>Reset</Button>
         <Button variant="contained" color="primary" onClick={saveConfig}>Save</Button>
       </div>
       <input type="file" id="import" ref={importFile} className={classes.dnone} onChange={importHandle} onClick={e => (e.target.value = null)} />
-      {/* <a href="#" id="tem_link" ref={tempExportLink}>sssss</a> */}
     </div>
   )
 }

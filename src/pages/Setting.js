@@ -4,7 +4,6 @@ import SwipeableViews from 'react-swipeable-views'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 
 import PartyPanel from '../components/UI/PartyPanel'
@@ -25,7 +24,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -58,6 +57,9 @@ function Setting() {
     //   backgroundPosition: 'center',
     //   opacity: 1,
     // }
+    tabpanel: {
+      height: '100vh',
+    }
   }))
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
@@ -72,7 +74,6 @@ function Setting() {
 
   return (
     <div className={classes.root}>
-      {/* <div className={classes.background}> </div> */}
       <AppBar position="sticky" color="default">
         <Tabs
           value={value}
@@ -92,13 +93,13 @@ function Setting() {
         index={value}
         onChangeIndex={handleChangeIndex}
       >
-        <TabPanel value={value} index={0} dir={theme.direction}>
+        <TabPanel value={value} index={0} dir={theme.direction} className={classes.tabpanel}>
           <PartyPanel />
         </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
+        <TabPanel value={value} index={1} dir={theme.direction} className={classes.tabpanel}>
           <ImXExport />
         </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
+        <TabPanel value={value} index={2} dir={theme.direction} className={classes.tabpanel}>
           <About />
         </TabPanel>
       </SwipeableViews>

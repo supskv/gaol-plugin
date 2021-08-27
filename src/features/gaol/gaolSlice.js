@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchUserConfig as fetchUserConfigAPI, updateUserConfig as updateUserConfigAPI } from './gaolAPI';
 import * as gaolService from './gaolService'
 import * as gaolAdaper from './gaolAdapter'
+import DefaultGaolConfig from '../../config/gaol'
+import * as GaolHelper from '../../utils/gaol-helper'
 
 const initialState = {
   number: -1,
@@ -11,6 +13,7 @@ const initialState = {
   nog: 3,
   status: 'ready',
   error: '',
+  message: DefaultGaolConfig.message,
 };
 
 const isExpire = (timestamp) => new Date().getTime() > timestamp
@@ -55,7 +58,7 @@ export const gaolSlice = createSlice({
       const gaoled = state.gaoledPlayers.filter(gp => !isExpire(gp.lte))
       // prevent duplicate
       const duplicate = gaoled.find(gp => gp.iplayer === iplayer) !== undefined
-      const newItem = { iplayer, lte: new Date().getTime() + 3000 }
+      const newItem = { iplayer, lte: new Date().getTime() + DefaultGaolConfig.gaolLTE }
       state.gaoledPlayers = !duplicate ? [...gaoled, newItem] : gaoled
       if (duplicate) {
         console.log('Duplicate player on gaol', iplayer)
@@ -63,6 +66,9 @@ export const gaolSlice = createSlice({
     },
     resetGaoledPlayer: (state) => {
       state.gaoledPlayers = []
+    },
+    setCustomMessage: (state, action) => {
+      state.message = action.payload
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -73,14 +79,17 @@ export const gaolSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(fetchUserConfig.fulfilled, (state, action) => {
+        // Default or User
+        // Initial setting default config
         state.status = 'ready';
         state.players = action.payload.players || state.players
         state.myNumber = action.payload.myNumber !== undefined ? action.payload.myNumber : state.myNumber
+        if (action.payload.message) state.message = action.payload.message
       });
   },
 });
 
-export const { order, form, position, error, appendGaoledPlayer, resetGaoledPlayer } = gaolSlice.actions;
+export const { order, form, position, error, appendGaoledPlayer, resetGaoledPlayer, setCustomMessage } = gaolSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -90,6 +99,7 @@ export const selectMyNumber = (state) => state.gaol.myNumber;
 export const selectPlayers = (state) => state.gaol.players;
 export const selectGaoledPlayers = (state) => state.gaol.gaoledPlayers;
 export const selectError = (state) => state.gaol.error;
+export const selectMessage = (state) => state.gaol.message;
 
 
 // We can also write thunks by hand, which may contain both sync and async logic.
@@ -129,19 +139,31 @@ export const orderGaol = () => (dispatch, getState) => {
     console.log(new Date(), gaoledPlayers, number)
 
     // tts gaol temp.
-    const msg = number || "Eating Titan's ass."
-    gaolAdaper.tts(msg)
+    const message = selectMessage(getState())
+    const msg = GaolHelper.getStringFromMessage(message, number)
+    if (msg) {
+      gaolAdaper.tts(msg)
+    } else {
+      dispatch(error(`Alert message is invalid.`))
+      setTimeout(() => dispatch(error('')), 10000)
+    }
 
     setTimeout(() => {
       dispatch(resetGaoledPlayer())
       dispatch(order(-1))
-    }, 10000)
+    }, DefaultGaolConfig.gaolResetLTE)
     dispatch(order(number))
   }
 }
 
-export const updateConfig = ({ players, myNumber = initialState.myNumber }) => async (dispatch) => {
-  await updateUserConfigAPI({ players, myNumber })
+export const updateConfig = ({
+  players,
+  myNumber = initialState.myNumber,
+  message = null,
+}) => async (dispatch) => {
+  const configObj = { players, myNumber }
+  if (message) configObj.message = message
+  await updateUserConfigAPI(configObj)
 }
 
 export default gaolSlice.reducer;

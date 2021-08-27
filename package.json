@@ -1,6 +1,6 @@
 {
   "name": "gaol-plugin",
-  "version": "0.1.11-alpha",
+  "version": "0.1.20-alpha",
   "private": true,
   "main": "src/index.js",
   "homepage": ".",
