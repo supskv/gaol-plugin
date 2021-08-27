@@ -22,7 +22,7 @@ jobs:
           REACT_APP_GAOL_RESET: ${{ secrets.REACT_APP_GAOL_RESET }}
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.6.2
+        uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           BRANCH: gh-pages
           FOLDER: build
