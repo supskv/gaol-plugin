@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+env:
+  REACT_APP_GAOL_LTE: ${{ secrets.REACT_APP_GAOL_LTE }}
+  REACT_APP_GAOL_RESET: ${{ secrets.REACT_APP_GAOL_RESET }}
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -18,8 +21,6 @@ jobs:
           npm run build
         env:
           CI: false
-          REACT_APP_GAOL_LTE: ${{ secrets.REACT_APP_GAOL_LTE }}
-          REACT_APP_GAOL_RESET: ${{ secrets.REACT_APP_GAOL_RESET }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
