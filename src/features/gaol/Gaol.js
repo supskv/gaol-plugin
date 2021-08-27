@@ -16,6 +16,7 @@ import {
   selectMessage,
 } from './gaolSlice'
 import * as GaolHelper from '../../utils/gaol-helper'
+import DefaultGaolConfig from '../../config/gaol'
 import './Gaol.css'
 
 
@@ -109,7 +110,7 @@ function Gaol() {
           <span> </span>
           {isCountdown() && (
             <Countdown
-              date={Date.now() + 10000}
+              date={Date.now() + DefaultGaolConfig.gaolResetLTE}
               intervalDelay={0}
               precision={2}
               renderer={props => (
