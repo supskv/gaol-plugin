@@ -18,11 +18,11 @@ jobs:
           npm run build
         env:
           CI: false
+          REACT_APP_GAOL_LTE: ${{ secrets.REACT_APP_GAOL_LTE }}
+          REACT_APP_GAOL_RESET: ${{ secrets.REACT_APP_GAOL_RESET }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
-          REACT_APP_GAOL_LTE: ${{ secrets.REACT_APP_GAOL_LTE }}
-          REACT_APP_GAOL_RESET: ${{ secrets.REACT_APP_GAOL_RESET }}
           BRANCH: gh-pages
           FOLDER: build
