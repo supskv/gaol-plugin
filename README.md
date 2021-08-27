@@ -48,3 +48,12 @@ In the overlay setting, Enter the `https://supskv.github.io/gaol-plugin`.
 ![start gaol overlay screenshot](screenshots/start_gaol_plugin.png)
 
 Finally, click on `Reload Overlay` or restart ACT.
+
+## How to test it
+Put these lines in a macro and change the names below to members within the party. then run the macro.
+
+`/e #-135-Ami Garcia`\
+`/e #-135-Alishba Holt`\
+`/e #-135-Tobey Fitzgerald`
+
+Have fun!
