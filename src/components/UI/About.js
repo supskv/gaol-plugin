@@ -25,7 +25,7 @@ function About() {
           </Typography>
           <Link underline="none" href="https://github.com/supskv/gaol-plugin" target="_blank">https://github.com/supskv/gaol-plugin</Link>
           <Typography variant="subtitle2" color="textSecondary" className={classes.spaceTop}>
-            version 0.1.10-alpha
+            version 0.1.11-alpha
           </Typography>
         </CardContent>
       </Card>
