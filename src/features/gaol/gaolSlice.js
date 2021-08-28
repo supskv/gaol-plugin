@@ -17,7 +17,6 @@ const initialState = {
   message: DefaultGaolConfig.message,
 };
 
-const isExpire = (timestamp) => new Date() > new Date(timestamp)
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
@@ -51,19 +50,11 @@ export const gaolSlice = createSlice({
       state.error = action.payload;
     },
     appendGaoledPlayer: (state, action) => {
-      const iplayer =  action.payload
-      
-      // filter out gaol that expired.
-      // prevent unexpected gaol such as header's gaol
-      // wrong case: 5 = healer, [6, 4, 2] = next gaol. Thus, gaol will be [5, 6, 4] instead of [6, 4, 2].
-      const gaoled = state.gaoledPlayers.filter(gp => !isExpire(gp.lte))
-      // prevent duplicate
-      const duplicate = gaoled.find(gp => gp.iplayer === iplayer) !== undefined
-      const newItem = { iplayer, lte: new Date().getTime() + DefaultGaolConfig.gaolLTE }
-      state.gaoledPlayers = !duplicate ? [...gaoled, newItem] : gaoled
-      if (duplicate) {
-        console.log(new Date().toLocaleString(), 'Duplicate player on gaol', iplayer)
-      }
+      const newItem = { iplayer: action.payload }
+      state.gaoledPlayers = [...state.gaoledPlayers, newItem]
+    },
+    removeGaoledPlayer: (state, action) => {
+      state.gaoledPlayers = state.gaoledPlayers.filter(gp => gp.iplayer !== action.payload)
     },
     resetGaoledPlayer: (state) => {
       state.gaoledPlayers = []
@@ -82,23 +73,22 @@ export const gaolSlice = createSlice({
       .addCase(fetchUserConfig.fulfilled, (state, action) => {
         // Default or User
         // Initial setting default config
-        const players = action.payload.players
+        const players = action.payload.players || state.players
         const myNumber = action.payload.myNumber
         state.status = 'ready';
-        state.players = players || state.players
+        state.players = players
         state.myNumber = myNumber !== undefined ? myNumber : state.myNumber
         if (action.payload.message) state.message = action.payload.message
 
         // identify user for LogRocket
-        if (players && myNumber !== undefined && myNumber >= 0) {
-          const logDisplayName = players[myNumber] || 'unselect-index'
-          LogRocket.identify(`#${myNumber}-${logDisplayName}`)
+        if (players[myNumber] !== undefined) {
+          LogRocket.identify(`#${myNumber}-${players[myNumber] || 'unselect-index'}`)
         }
       });
   },
 });
 
-export const { order, form, position, error, appendGaoledPlayer, resetGaoledPlayer, setCustomMessage } = gaolSlice.actions;
+export const { order, form, position, error, appendGaoledPlayer, removeGaoledPlayer, resetGaoledPlayer, setCustomMessage } = gaolSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -124,6 +114,7 @@ export const selectMessage = (state) => state.gaol.message;
  */
 export const updateGaol = (rawLine) => (dispatch, getState) => {
   const { getNameFromRaw, getPlayerFromRaw } = gaolService
+  const gaoledPlayers = selectGaoledPlayers(getState())
   const players = selectPlayers(getState())
   const [i, isFound] = getPlayerFromRaw(players, rawLine)
   if (!isFound) {
@@ -135,14 +126,17 @@ export const updateGaol = (rawLine) => (dispatch, getState) => {
     }
     return
   }
-  
-  const gaoledPlayers = selectGaoledPlayers(getState())
-  if (gaoledPlayers.length >= 3) {
-    dispatch(resetGaoledPlayer())
-    console.log(new Date().toLocaleString(), 'uncommon event', rawLine)
+
+  const duplicate = gaoledPlayers.find(gp => gp.iplayer === i) !== undefined
+  if (duplicate) {
+    console.log(new Date().toLocaleString(), 'Duplicate player on gaol', i)
+    return
   }
 
   dispatch(appendGaoledPlayer(i))
+  setTimeout(() => {
+    dispatch(removeGaoledPlayer(i))
+  }, DefaultGaolConfig.gaolLTE)
   dispatch(orderGaol())
 }
 
@@ -151,7 +145,7 @@ export const orderGaol = () => (dispatch, getState) => {
   if (gaoledPlayers.length === 3) {
     const myNumber = selectMyNumber(getState())
     let [number] = gaolService.getGaolOrderByMe(myNumber, gaoledPlayers.map(gp => gp.iplayer))
-    console.log(new Date().toLocaleString(), gaoledPlayers.map(gp => ({...gp, lte: new Date(gp.lte).toLocaleString()})), number)
+    console.log(new Date().toLocaleString(), gaoledPlayers.map(gp => gp.iplayer), number)
 
     // tts gaol temp.
     const message = selectMessage(getState())
@@ -179,6 +173,10 @@ export const updateConfig = ({
   const configObj = { players, myNumber }
   if (message) configObj.message = message
   await updateUserConfigAPI(configObj)
+  // identify user for LogRocket
+  if (players[myNumber] !== undefined) {
+    LogRocket.identify(`#${myNumber}-${players[myNumber] || 'unselect-index'}`)
+  }
 }
 
 export default gaolSlice.reducer;

@@ -10,7 +10,7 @@ const config = {
         gaol2: "2",
         gaol3: "3",
     },
-    gaolLTE: Math.max(0, process.env.REACT_APP_GAOL_LTE || 3000),
+    gaolLTE: Math.max(0, process.env.REACT_APP_GAOL_LTE || 5000),
     gaolResetLTE: Math.max(0, process.env.REACT_APP_GAOL_RESET || 10000),
 }
 
