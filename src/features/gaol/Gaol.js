@@ -108,7 +108,7 @@ function Gaol() {
           <span> </span>
           <span className={classes.order}>{toNumberString()}</span>
           <span> </span>
-          {isCountdown() && (
+          {/* {isCountdown() && (
             <Countdown
               date={Date.now() + DefaultGaolConfig.gaolResetLTE}
               intervalDelay={0}
@@ -119,7 +119,7 @@ function Gaol() {
                 </Typography>
               )}
             />
-          )}
+          )} */}
         </Typography>
         <Typography variant="body2" className={classes.msg} color="error">{errorMsg || ''}</Typography>
       </div>

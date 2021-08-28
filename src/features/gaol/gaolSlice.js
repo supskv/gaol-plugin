@@ -135,6 +135,12 @@ export const updateGaol = (rawLine) => (dispatch, getState) => {
     }
     return
   }
+  
+  const gaoledPlayers = selectGaoledPlayers(getState())
+  if (gaoledPlayers.length >= 3) {
+    dispatch(resetGaoledPlayer())
+    console.log(new Date().toLocaleString(), 'uncommon event', rawLine)
+  }
 
   dispatch(appendGaoledPlayer(i))
   dispatch(orderGaol())
