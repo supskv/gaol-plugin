@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchUserConfig as fetchUserConfigAPI, updateUserConfig as updateUserConfigAPI } from './gaolAPI';
+import LogRocket from 'logrocket'
 import * as gaolService from './gaolService'
 import * as gaolAdaper from './gaolAdapter'
 import DefaultGaolConfig from '../../config/gaol'
@@ -16,7 +17,7 @@ const initialState = {
   message: DefaultGaolConfig.message,
 };
 
-const isExpire = (timestamp) => new Date().getTime() > timestamp
+const isExpire = (timestamp) => new Date() > new Date(timestamp)
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
@@ -61,7 +62,7 @@ export const gaolSlice = createSlice({
       const newItem = { iplayer, lte: new Date().getTime() + DefaultGaolConfig.gaolLTE }
       state.gaoledPlayers = !duplicate ? [...gaoled, newItem] : gaoled
       if (duplicate) {
-        console.log('Duplicate player on gaol', iplayer)
+        console.log(new Date().toLocaleString(), 'Duplicate player on gaol', iplayer)
       }
     },
     resetGaoledPlayer: (state) => {
@@ -81,10 +82,18 @@ export const gaolSlice = createSlice({
       .addCase(fetchUserConfig.fulfilled, (state, action) => {
         // Default or User
         // Initial setting default config
+        const players = action.payload.players
+        const myNumber = action.payload.myNumber
         state.status = 'ready';
-        state.players = action.payload.players || state.players
-        state.myNumber = action.payload.myNumber !== undefined ? action.payload.myNumber : state.myNumber
+        state.players = players || state.players
+        state.myNumber = myNumber !== undefined ? myNumber : state.myNumber
         if (action.payload.message) state.message = action.payload.message
+
+        // identify user for LogRocket
+        if (players && myNumber !== undefined && myNumber >= 0) {
+          const logDisplayName = players[myNumber] || 'unselect-index'
+          LogRocket.identify(`#${myNumber}-${logDisplayName}`)
+        }
       });
   },
 });
@@ -136,7 +145,7 @@ export const orderGaol = () => (dispatch, getState) => {
   if (gaoledPlayers.length === 3) {
     const myNumber = selectMyNumber(getState())
     let [number] = gaolService.getGaolOrderByMe(myNumber, gaoledPlayers.map(gp => gp.iplayer))
-    console.log(new Date(), gaoledPlayers, number)
+    console.log(new Date().toLocaleString(), gaoledPlayers.map(gp => ({...gp, lte: new Date(gp.lte).toLocaleString()})), number)
 
     // tts gaol temp.
     const message = selectMessage(getState())
