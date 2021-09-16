@@ -51,12 +51,15 @@ Finally, click on `Reload Overlay` or restart ACT.
 
 ## How to use it
 
+** IMPORTANT: THE PARTY MUST BE ARRANGED IN THE SAME ORDER WITH OTHER **\
+The feature to help in exporting/importing [here](#how-to-export-import-it)
+
 Firstly, click on `Setting` to open setting window,
 click `New` button in `More` icon on the top-right corner to add new member.
 
 ![setting new screenshot](screenshots/setting_new.png)
 
-** IMPORTANT ** Secondly, Select your position (mark red radio on front of the name).
+Secondly, Select your position (mark red radio on front of the name).
 
 ![setting position screenshot](screenshots/setting_full_party.jpg)
 
@@ -65,6 +68,24 @@ click `New` button in `More` icon on the top-right corner to add new member.
 ![setting tts screenshot](screenshots/setting_tts.png)
 
 Finally, click `Save` on the end of window.
+
+## How to import/export the party
+
+### Export
+After added the full party, go to `Import/Export` tab, then click on `Export` button
+
+![setting export screenshot](screenshots/setting_export.jpg)
+
+Copy the generated code and share with others
+
+### Import
+
+Go to `Import/Export` tab, paste the generated code then click `Import`
+
+![setting import screenshot](screenshots/setting_import.jpg)
+
+Select your position (mark red radio on front of the name) in `General` tab.\
+Finally, click on `Save` button.
 
 ## How to test it
 Put these lines in a macro and change the names below to members within the party. then run the macro.
