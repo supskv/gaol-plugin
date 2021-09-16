@@ -52,7 +52,7 @@ Finally, click on `Reload Overlay` or restart ACT.
 ## How to use it
 
 ** IMPORTANT: THE PARTY MUST BE ARRANGED IN THE SAME ORDER WITH OTHER **\
-The feature to help in exporting/importing [here](#how-to-export-import-it)
+The feature to help in exporting/importing [here](#how-to-importexport-the-party)
 
 Firstly, click on `Setting` to open setting window,
 click `New` button in `More` icon on the top-right corner to add new member.
