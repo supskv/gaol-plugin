@@ -49,10 +49,27 @@ In the overlay setting, Enter the `https://supskv.github.io/gaol-plugin`.
 
 Finally, click on `Reload Overlay` or restart ACT.
 
+## How to use it
+
+Firstly, click on `Setting` to open setting window,
+click `New` button in `More` icon on the top-right corner to add new member.
+
+![setting new screenshot](screenshots/setting_new.png)
+
+** IMPORTANT ** Secondly, Select your position (mark red radio on front of the name).
+
+![setting position screenshot](screenshots/setting_full_party.jpg)
+
+(Optional) Adding custom TTS message in custom panel.
+
+![setting tts screenshot](screenshots/setting_tts.png)
+
+Finally, click `Save` on the end of window.
+
 ## How to test it
 Put these lines in a macro and change the names below to members within the party. then run the macro.
 
-`/e #-135-Ami Garcia`\
+`/e #-135-<YOUR_NAME>`\
 `/e #-135-Alishba Holt`\
 `/e #-135-Tobey Fitzgerald`
 
