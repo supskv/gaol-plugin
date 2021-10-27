@@ -90,7 +90,7 @@ Finally, click on `Save` button.
 ## How to test it
 Put these lines in a macro and change the names below to members within the party. then run the macro.
 
-`/e #-135-YOUR_NAME`\
+`/e #-135-YOUR NAME`\
 `/e #-135-Alishba Holt`\
 `/e #-135-Tobey Fitzgerald`
 
